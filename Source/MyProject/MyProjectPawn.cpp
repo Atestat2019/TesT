@@ -7,11 +7,32 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "test.h"
+#include "EngineUtils.h"
 
 AMyProjectPawn::AMyProjectPawn(const FObjectInitializer& ObjectInitializer) 
 	: Super(ObjectInitializer)
 {
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+}
+
+void AMyProjectPawn::BeginPlay()
+{
+
+	for (TActorIterator<Atest> it(GetWorld()); it; ++it)
+	{
+		sfera = *it;
+		break;
+	}
+
+	if (sfera == NULL)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("nu exista"));
+	}
+	else
+	{
+		sfera->SetActorLocation({ 0,0,0 });
+	}
 }
 
 void AMyProjectPawn::Tick(float DeltaSeconds)
