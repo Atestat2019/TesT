@@ -42,6 +42,11 @@ public:
 	UPROPERTY()
 	class AMyProjectBlockGrid* OwningGrid;
 
+	UPROPERTY()
+	class UMaterialInstance* Perete_Inst;
+
+	
+
 	/** Handle the block being clicked */
 	UFUNCTION()
 	void BlockClicked(UPrimitiveComponent* ClickedComp, FKey ButtonClicked);
