@@ -10,30 +10,14 @@
 #include "test.h"
 #include "EngineUtils.h"
 
-AMyProjectPawn::AMyProjectPawn(const FObjectInitializer& ObjectInitializer) 
+AMyProjectPawn::AMyProjectPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
 }
 
-void AMyProjectPawn::BeginPlay()
-{
 
-	for (TActorIterator<Atest> it(GetWorld()); it; ++it)
-	{
-		sfera = *it;
-		break;
-	}
-
-	if (sfera == NULL)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("nu exista"));
-	}
-	else
-	{
-		sfera->SetActorLocation({ 0,0,0 });
-	}
-}
 
 void AMyProjectPawn::Tick(float DeltaSeconds)
 {
@@ -55,10 +39,27 @@ void AMyProjectPawn::Tick(float DeltaSeconds)
 			FVector Start, Dir, End;
 			PC->DeprojectMousePositionToWorld(Start, Dir);
 			End = Start + (Dir * 8000.0f);
-			TraceForBlock(Start, End, false);
+			TraceForBlock(Start, End, true);
 		}
 	}
 }
+
+
+void AMyProjectPawn::BeginPlay()
+{
+
+	for (TActorIterator<Atest> it(GetWorld()); it; ++it)
+	{
+		sfera = *it;
+		break;
+	}
+
+	if (sfera != NULL)
+	{
+		sfera->SetActorLocation({ 0,0,0 });
+	}
+}
+
 
 void AMyProjectPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

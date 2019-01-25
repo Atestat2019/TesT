@@ -15,7 +15,7 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 

@@ -24,6 +24,7 @@ public:
 	AMyProjectBlockGrid();
 
 	/** How many blocks have been clicked */
+	UPROPERTY(Category = Grid, EditAnywhere, BlueprintReadOnly)
 	int32 Score;
 
 	/** Number of blocks along each side of grid */
