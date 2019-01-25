@@ -35,6 +35,8 @@ public:
 	UPROPERTY(Category=Grid, EditAnywhere, BlueprintReadOnly)
 	float BlockSpacing;
 
+	class Atest* sfera;
+
 protected:
 	// Begin AActor interface
 	virtual void BeginPlay() override;

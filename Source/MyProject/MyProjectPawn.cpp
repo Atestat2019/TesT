@@ -18,55 +18,30 @@ AMyProjectPawn::AMyProjectPawn(const FObjectInitializer& ObjectInitializer)
 }
 
 
-
 void AMyProjectPawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	APlayerController* PC = Cast<APlayerController>(GetController());
+
+	if (PC)
 	{
-		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
-		{
-			if (UCameraComponent* OurCamera = PC->GetViewTarget()->FindComponentByClass<UCameraComponent>())
-			{
-				FVector Start = OurCamera->GetComponentLocation();
-				FVector End = Start + (OurCamera->GetComponentRotation().Vector() * 8000.0f);
-				TraceForBlock(Start, End, true);
-			}
-		}
-		else
-		{
+
 			FVector Start, Dir, End;
 			PC->DeprojectMousePositionToWorld(Start, Dir);
 			End = Start + (Dir * 8000.0f);
-			TraceForBlock(Start, End, true);
-		}
+			TraceForBlock(Start, End, false);
 	}
 }
 
 
-void AMyProjectPawn::BeginPlay()
-{
-
-	for (TActorIterator<Atest> it(GetWorld()); it; ++it)
-	{
-		sfera = *it;
-		break;
-	}
-
-	if (sfera != NULL)
-	{
-		sfera->SetActorLocation({ 0,0,0 });
-	}
-}
 
 
 void AMyProjectPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("OnResetVR", EInputEvent::IE_Pressed, this, &AMyProjectPawn::OnResetVR);
-	PlayerInputComponent->BindAction("TriggerClick", EInputEvent::IE_Pressed, this, &AMyProjectPawn::TriggerClick);
+	
 }
 
 void AMyProjectPawn::CalcCamera(float DeltaTime, struct FMinimalViewInfo& OutResult)
@@ -76,18 +51,6 @@ void AMyProjectPawn::CalcCamera(float DeltaTime, struct FMinimalViewInfo& OutRes
 	OutResult.Rotation = FRotator(-90.0f, -90.0f, 0.0f);
 }
 
-void AMyProjectPawn::OnResetVR()
-{
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void AMyProjectPawn::TriggerClick()
-{
-	if (CurrentBlockFocus)
-	{
-		CurrentBlockFocus->HandleClicked();
-	}
-}
 
 void AMyProjectPawn::TraceForBlock(const FVector& Start, const FVector& End, bool bDrawDebugHelpers)
 {

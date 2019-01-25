@@ -4,6 +4,8 @@
 #include "MyProjectBlock.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
+#include "test.h"
 
 #define LOCTEXT_NAMESPACE "PuzzleBlockGrid"
 
@@ -51,6 +53,15 @@ void AMyProjectBlockGrid::BeginPlay()
 			NewBlock->OwningGrid = this;
 		}
 	}
+
+
+	for (TActorIterator<Atest> it(GetWorld()); it; ++it)
+	{
+			
+		sfera = *it;
+		break;
+	}
+
 }
 
 
@@ -58,6 +69,8 @@ void AMyProjectBlockGrid::AddScore()
 {
 	// Increment score
 	Score++;
+
+	sfera->SetActorLocation({ 0,0,0 });
 
 	// Update text
 	ScoreText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Score: {0}"), FText::AsNumber(Score)));
